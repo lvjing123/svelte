@@ -50,3 +50,4 @@ export default writable(0);
 
 https://www.svelte.cn/examples#component-events
 https://www.svelte.cn/docs#readable
+https://svelte-pilot.github.io/zh-CN/routing

@@ -1,11 +1,12 @@
-import Home from './views/Home.svelte';
-import Users from './views/Users.svelte';
-// import Detail from './views/Detail.svelte';
+import Login from './views/public/Login.svelte'
+import AdminIndex from './views/admin/index.svelte'
+import Users from './views/user/Users.svelte';
 
 const routes = {
-  '/': Home,
+  '/': Login,
+  '/login': Login,
+  '/home': AdminIndex,
   '/users': Users,
-  // '/detail/:type/:id': Detail,
 }
 
 export default routes;

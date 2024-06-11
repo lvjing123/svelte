@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "path": "^0.12.7",
+    "svelte-router-spa": "^7.0.1",
     "svelte-spa-router": "^4.0.1"
   }
 }

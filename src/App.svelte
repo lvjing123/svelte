@@ -1,8 +1,17 @@
 <script lang="ts">
-  import Router from "svelte-spa-router";
+  import Router, { push, location } from "svelte-spa-router";
   import routes from "./routes";
+  import { loginUser } from "./store";
+  function checkLogin() {
+    if (
+      $loginUser.password == "" &&
+      !($location === "/" || $location === "/login")
+    ) {
+      push("/login");
+    }
+  }
 </script>
 
 <main>
-  <Router {routes} />
+  <Router {routes} on:routeLoading={checkLogin} />
 </main>
