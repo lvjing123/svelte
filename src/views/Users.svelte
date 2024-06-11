@@ -1,6 +1,9 @@
 <script lang="ts">
   // router
   import { push } from "svelte-spa-router";
+  import Todo from "./Todo.svelte";
+  import Keypad from "./Keypad.svelte";
+
   let userList: any = [
     { id: 1, name: "darkblue" },
     { id: 2, name: "indigo" },
@@ -52,15 +55,30 @@
     },
   ];
 
+  let selectMulipty = [
+    "Cookies and cream",
+    "Mint choc chip",
+    "Raspberry ripple",
+  ];
+
   let formValue = {
     selected: 1,
     answer: null,
     checked: false,
+    flavours: ["Mint choc chip"],
+    textarea: "",
+    flavourSelectMulipty: ["Mint choc chip"],
   };
 
   function handleSubmit() {
-    alert();
-    // `answered question ${selected.id} (${selected.text}) with "${answer}"`
+    console.log(formValue, "formValue");
+  }
+
+  let pin: any;
+  $: view = pin ? pin.replace(/\d(?!$)/g, "•") : "enter your pin";
+
+  function handleSubmitKey() {
+    alert(`submitted ${pin}`);
   }
 </script>
 
@@ -126,10 +144,40 @@
     Yes! Send me regular email spam
   </label>
 
-  <button disabled={!formValue.answer} type="submit" class="item">
-    Submit
-  </button>
+  <div class="item">
+    {#each selectMulipty as flavour}
+      <label>
+        <input
+          type="checkbox"
+          bind:group={formValue.flavours}
+          value={flavour}
+        />
+        {flavour}
+      </label>
+    {/each}
+  </div>
+  <textarea class="item" bind:value={formValue.textarea}></textarea>
+
+  <div>
+    <select multiple bind:value={formValue.flavourSelectMulipty}>
+      {#each selectMulipty as flavour}
+        <option value={flavour}>
+          {flavour}
+        </option>
+      {/each}
+    </select>
+  </div>
+
+  <button type="submit" class="item"> Submit </button>
 </form>
+<div>example for todo list</div>
+<div class="todo-list-container"><Todo /></div>
+
+<div>example for use component</div>
+<div class="keyboard-container">
+  <h1 style="color: {pin ? '#333' : '#ccc'}">{view}</h1>
+  <Keypad bind:value={pin} on:submit={handleSubmitKey} />
+</div>
 
 <style lang="scss" scoped>
   .button {
@@ -195,8 +243,19 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    border: 1px solid chocolate;
     .item {
       margin: 10px;
+      text-align: left;
+      border: 1px solid rgb(18, 40, 166);
+      height: 32px;
+      border-radius: 10px;
     }
+  }
+  .todo-list-container {
+    border: 1px solid chocolate;
+  }
+  .keyboard-container {
+    border: 1px solid chocolate;
   }
 </style>
