@@ -1,18 +1,21 @@
 <script lang="ts">
   import { loginUser } from "../../store";
   import { push } from "svelte-spa-router";
-
+  import { logigApi } from "../../api/api";
   let formValue = {
     username: "",
     password: "",
   };
 
-  function handleSubmit() {
-    console.log(formValue, "formValue");
-    // store
-    loginUser.set(formValue);
-    // redirect
-    push("/home");
+  async function handleSubmit() {
+    const res = await logigApi(formValue);
+    console.log(res, "formValue");
+    if (res) {
+      // store
+      loginUser.set(formValue);
+      // redirect
+      push("/home");
+    }
   }
 </script>
 
