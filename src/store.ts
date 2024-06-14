@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 
 const loginInfo  = {
-    username: '',
-    password: ''
+    username: localStorage.getItem('username'),
+    password: localStorage.getItem('password')
 }
 export const loginUser = writable(loginInfo)

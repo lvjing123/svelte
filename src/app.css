@@ -40,9 +40,11 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
@@ -62,6 +64,17 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.button {
+  display: block;
+  margin-bottom: 10px;
+  background-color: lightblue;
 }
 
 

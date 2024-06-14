@@ -12,6 +12,8 @@
     console.log(res, "formValue");
     if (res) {
       // store
+      localStorage.setItem("username", formValue.username);
+      localStorage.setItem("password", formValue.password);
       loginUser.set(formValue);
       // redirect
       push("/home");

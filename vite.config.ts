@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     proxy: {
-      '/api': 'https://text.debug.com/',
+      '/api': 'http://test.debug.com/',
     },
     hmr: {
       overlay: false,

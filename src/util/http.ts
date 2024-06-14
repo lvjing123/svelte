@@ -14,9 +14,7 @@ const http = {
   },
   post: (url: string, params: any) => {
     return new Promise((resolve, reject) =>{        
-      server.post(url, {            
-          params: params        
-      }).then(res => {
+      server.post(url, params).then(res => {
           resolve(res.data);
       }).catch(err =>{
           reject(err.data)  
