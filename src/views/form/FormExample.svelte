@@ -1,6 +1,8 @@
 <script lang="ts">
   // router
   import Layout from "../public/layout.svelte";
+  import { createForm } from "svelte-forms-lib";
+  import * as yup from "yup";
 
   // for form
   let selectOptions = [
@@ -18,33 +20,33 @@
     "Raspberry ripple",
   ];
 
-  let formValue = {
-    selected: 1,
-    answer: null,
-    checked: false,
-    flavours: ["Mint choc chip"],
-    textarea: "",
-    flavourSelectMulipty: ["Mint choc chip"],
-  };
-
-  function handleSubmit() {
-    console.log(formValue, "formValue");
-  }
-
-  let pin: any;
-  $: view = pin ? pin.replace(/\d(?!$)/g, "•") : "enter your pin";
-
-  function handleSubmitKey() {
-    alert(`submitted ${pin}`);
-  }
+  const { form, errors, state, handleChange, handleSubmit } = createForm({
+    initialValues: {
+      selected: 1,
+      answer: null,
+      checked: false,
+      flavours: ["Mint choc chip"],
+      textarea: "",
+      flavourSelectMulipty: ["Mint choc chip"],
+    },
+    validationSchema: yup.object().shape({
+      selected: yup.string().required(),
+      answer: yup.string().email().required(),
+    }),
+    onSubmit: (values) => {
+      alert(JSON.stringify(values));
+    },
+  });
 </script>
 
 <Layout>
   <p>example for form</p>
   <form on:submit|preventDefault={handleSubmit} class="form-container">
     <select
-      bind:value={formValue.selected}
-      on:change={() => (formValue.answer = null)}
+      id="selected"
+      name="selected"
+      bind:value={$form.selected}
+      on:change={() => ($form.answer = null)}
       class="item"
     >
       {#each selectOptions as item}
@@ -53,30 +55,33 @@
         </option>
       {/each}
     </select>
+    {#if $errors.selected}
+      <small>{$errors.selected}</small>
+    {/if}
 
-    <input bind:value={formValue.answer} class="item" />
+    <input id="answer" name="answer" bind:value={$form.answer} class="item" />
+
+    {#if $errors.answer}
+      <small>{$errors.answer}</small>
+    {/if}
 
     <label class="item">
-      <input type="checkbox" bind:checked={formValue.checked} />
+      <input type="checkbox" bind:checked={$form.checked} />
       Yes! Send me regular email spam
     </label>
 
     <div class="item">
       {#each selectMulipty as flavour}
         <label>
-          <input
-            type="checkbox"
-            bind:group={formValue.flavours}
-            value={flavour}
-          />
+          <input type="checkbox" bind:group={$form.flavours} value={flavour} />
           {flavour}
         </label>
       {/each}
     </div>
-    <textarea class="item" bind:value={formValue.textarea}></textarea>
+    <textarea class="item" bind:value={$form.textarea}></textarea>
 
-    <div>
-      <select multiple bind:value={formValue.flavourSelectMulipty}>
+    <div class="multiple-item-container">
+      <select multiple bind:value={$form.flavourSelectMulipty}>
         {#each selectOptions as item}
           <option value={item.id}>
             {item.text}
@@ -104,6 +109,9 @@
       height: 32px;
       border-radius: 10px;
       padding: 8px;
+    }
+    .multiple-item-container {
+      display: none;
     }
   }
 </style>
